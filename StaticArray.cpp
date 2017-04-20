@@ -7,11 +7,6 @@ StaticArray::StaticArray(int _maxNumber)
 	size = 0;
 }
 
-StaticArray::~StaticArray()
-{
-	delete[] arr;
-}
-
 int StaticArray::Size() const { return size; }
 
 bool StaticArray::isEmpty() const { return size == 0; }
@@ -46,3 +41,5 @@ void StaticArray::set(int index, int value) {
 	else if (index >= size || index < 0) throw 2;
 	arr[index] = value;
 }
+
+StaticArray::~StaticArray() { delete[] arr; }

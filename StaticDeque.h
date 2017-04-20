@@ -8,7 +8,7 @@ private:
 	int size;
 	int *arr;
 public:
-	StaticDeque();
+	StaticDeque(int default_value);
 
 	int Size() const;
 	bool isEmpty() const;

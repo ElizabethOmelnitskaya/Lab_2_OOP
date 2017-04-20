@@ -13,98 +13,74 @@
 
 using namespace std;
 
-const int countElements = 15;
-const int countPopping = 5;
-const int countPushFront = 5;
+const int elem = 7;
+const int elemPop = 3;
+const int elemPushFront = 5;
 
 int main()
 {
-	PushPopContainer **arr1 = new PushPopContainer*[3];
-	IndexedContainer **arr2 = new IndexedContainer*[2];
-	Deque **arr3 = new Deque*[3];
+	PushPopContainer **arr1 = new PushPopContainer*[2];
+	IndexedContainer **arr2 = new IndexedContainer*[1];
+	Deque **arr3 = new Deque*[1];
 
 	arr1[0] = new Queue();
 	arr1[1] = new Stack() ;
-	arr1[2] = new LinkedList;
 
 	arr2[0] = new StaticArray(100);
 
-	arr3[0] = new StaticDeque();
+	arr3[0] = new StaticDeque(15);
 
-	for (int i = 1; i <= countElements; i++) {
+	for (int i = 1; i <= elem; i++) {
 		arr1[0]->push(i);
 		arr1[1]->push(i);
-		arr1[2]->push(i);
 	}
 
 	cout << arr1[0]->toString() << endl;
 	cout << arr1[1]->toString() << endl;
-	cout << arr1[2]->toString() << endl;
 
-	cout << "Popping first n elements, n = " << countPopping << endl;
-
-	for (int i = 0; i < countPopping; i++) {
-		cout << "Stage " << i + 1 << endl;
-		cout << "Popped from stack = " << arr1[0]->pop() << endl;
-		cout << "Popped from queue = " << arr1[1]->pop() << endl;
-		cout << "Popped from linked list = " << arr1[2]->pop() << endl;
+	cout << "There are the first n elements: " << elemPop << endl;
+	for (int i = 0; i < elemPop; i++) {
+		cout << "Step: " << i + 1 << endl;
+		cout << "Out of queue: " << arr1[0]->pop() << endl;
+		cout << "Out of stack: " << arr1[1]->pop() << endl;
 	}
 
-	cout << "After popping" << endl;
-
+	cout << "After leaving:" << endl;
 	cout << arr1[0]->toString() << endl;
 	cout << arr1[1]->toString() << endl;
-	cout << arr1[2]->toString() << endl;
 
-	for (int i = 1; i <= countElements; i++) {
+	for (int i = 1; i <= elem; i++) {
 		arr2[0]->set(i - 1, i);
 		arr2[1]->set(i - 1, i);
 	}
-
 	cout << arr2[0]->toString() << endl;
-	cout << arr2[1]->toString() << endl;
 
-	cout << "Input element index:" << endl;
 	int index = 0;
+	cout << "Input element index:" << endl;
 	cin >> index;
-
-	cout << "Element" << index << " from static array = " << arr2[0]->get(index) << endl;
-	cout << "Element" << index << " from linked list = " << arr2[1]->get(index) << endl;
-
-	for (int i = 0; i < countElements; i++) {
+	cout << "Element " << index << "from static array: " << arr2[0]->get(index) << endl;
+	
+	for (int i = 0; i < elem; i++) {
 		arr3[0]->pushBack(i);
-		arr3[1]->pushBack(i);
 	}
-
 	cout << arr3[0]->toString() << endl;
-	cout << arr3[1]->toString() << endl;
 
 	cout << "Front pushing: " << endl;
-
-	for (int i = 0; i < countPushFront; i++) {
-		arr3[0]->pushFront(countElements + i);
-		arr3[1]->pushFront(countElements + i);
+	for (int i = 0; i < elemPushFront; i++) {
+		arr3[0]->pushFront(elem + i);
 	}
-
 	cout << "After pushing:" << endl;
-
 	cout << arr3[0]->toString() << endl;
-	cout << arr3[1]->toString() << endl;
 
-	cout << "Back popping: " << endl;
-
-	for (int i = 0; i < countPopping; i++) {
-		cout << "Stage " << i + 1 << endl;
-		cout << "Popped from static array = " << arr3[0]->popBack() << endl;
-		cout << "Popped from linked list = " << arr3[1]->popBack() << endl;
+	cout << "Again. Back popping: " << endl;
+	for (int i = 0; i < elemPop; i++) {
+		cout << "Step " << i + 1 << endl;
+		cout << "output from an static array: " << arr3[0]->popBack() << endl;
 	}
 
-	cout << "After popping: " << endl;
-
+	cout << "After leaving: " << endl;
 	cout << arr3[0]->toString() << endl;
-	cout << arr3[1]->toString() << endl;
 
-	_getch();
-
+	system("pause");
 	return 0;
 }

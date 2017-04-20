@@ -38,46 +38,38 @@ char* LinkedList::toString() const {
 }
 
 // PushPopContainer
-int LinkedList::peek() const {
-	if (isEmpty()) return emptyIntValue;
-	return tail->value;
-}
+int LinkedList::peek() const { return tail->value; }
 
 int LinkedList::pop() {
-	if (isEmpty()) return emptyIntValue;
+	if (isEmpty()) throw 1;
 
-	node *tmp = tail;
-	int tmp_val = tmp->value;
-	tail->prev->next = NULL;
-	tail = tail->prev;
-	size --;
-
-	if (isEmpty()) head = NULL;
-
-	delete tmp;
-
+	node *tmp_del = tail->prev;
+	int tmp_val = tail->value;
+	delete tail;
+	tail = tmp_del;
+	if (tail) tail->next = NULL;
+	else head = NULL;
+	size--;
 	return tmp_val;
 }
 
 bool LinkedList::push(int value) {
-	node *newNode = new node();
+	node *tmp = new node();
 
-	newNode->value = value;
-	if (isEmpty()) {
-		head = newNode;
-		tail = newNode;
-		size++;
-		return true;
-	}
-	newNode->prev = tail;
-	tail->next = newNode;
-	tail = newNode;
+	tmp->value = value;
+	tmp->next = NULL;
+	tmp->prev = tail;
+	if (isEmpty())
+		head = tmp;
+	else
+		tail->next = tmp;
+	tail = tmp;
+	size++;
 
-	size ++;
 	return true;
 }
 
-// Deque
+/*// Deque
 bool LinkedList::pushFront(int value) {
 	node *newNode = new node();
 
@@ -130,73 +122,69 @@ int LinkedList::peekFront() const {
 
 int LinkedList::peekBack() const {
 	return peek();
-}
+}*/
 
 // IndexedContainer 
 int LinkedList::get(int index) const {
-	node *element = elementAtIndex(index);
-	return element == NULL ? emptyIntValue : element->value;
+	if (isEmpty()) throw 1;
+	else if (index >= size || index < 0)
+		throw 2;
+	node *tmp = head;
+	for (int i = 1; i <= index; i++)
+		tmp = tmp->next;
+	return tmp->value;
 }
 
 void LinkedList::set(int index, int value) {
-	if (index == Size()) {
-		push(value);
-	}
-	else {
-		node *element = elementAtIndex(index);
-		if (element == NULL) return;
-		element->value = value;
-	}
+	if (isEmpty()) throw 1;
+	else if (index >= size || index < 0) throw 2;
+	node *tmp = head;
+	for (int i = 1; i <= index; i++)
+		tmp = tmp->next;
+	tmp->value = value;
 }
 
 // InsertableContainer
 bool LinkedList::insertAt(int index, int value) {
-	if (index == Size()) {
-		return push(value);
+	if (index > size || index < 0 || isEmpty() && index)
+		throw 2;
+	int tmp_value;
+	node *tmp_node = new node;
+	tmp_node->value = value;
+	tmp_node->next = head;
+	tmp_node->prev = NULL;
+	if (isEmpty()) tail = tmp_node;
+	else head->prev = tmp_node;
+	head = tmp_node;
+	size++;
+	for (int i = 0; i < index; i++)
+	{
+		tmp_value = get(i);
+		set(i, get(i + 1));
+		set(i + 1, tmp_value);
 	}
-	else if (index == 0) {
-		return pushFront(value);
-	}
-	else {
-		node *element = elementAtIndex(index);
 
-		if (element == NULL) return false;
-
-		node *newNode = new node();
-		newNode->value = value;
-
-		newNode->prev = element->prev;
-		element->prev->next = newNode;
-		newNode->next = element;
-		element->prev = newNode;
-
-		size++;
-
-		return true;
-	}
+	return true;
 }
 
 int LinkedList::removeAt(int index) {
-	if (isEmpty()) return emptyIntValue;
-	if (checkIndex(index)) return emptyIntValue;
+	if (isEmpty()) throw 1;
+	else if (index >= size || index < 0) throw 2;
 
-	if (index == 0) {
-		return popFront();
-	}
-	else if (index == Size() - 1) {
-		return pop();
-	}
-	else {
-		node *element = elementAtIndex(index);
-
-		element->prev->next = element->next;
-		element->next->prev = element->prev;
-
-		int value = element->value;
-		size--;
-
-		return value;
-	}
+	int tmp_head_val = head->value, tmp_val;
+	node *tmp_node = head->next;
+	delete head;
+	head = tmp_node;
+	if (head)
+		head->prev = NULL;
+	else
+		tail = NULL;
+	size--;
+	for (int i = index - 1; i > 0; i--)
+		set(i, get(i - 1));
+	if (index)
+		set(0, tmp_head_val);
+	return tmp_val;
 }
 
 LinkedList::~LinkedList()

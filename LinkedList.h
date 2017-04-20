@@ -6,30 +6,22 @@
 class LinkedList : public InsertableContainer, public PushPopContainer
 {
 private:
-	const int emptyIntValue = -1;
-
 	node *head, *tail;
 	int size;
-
-	bool checkIndex(int) const;
-
-	node* elementAtIndex(int) const;
-
 public:
 	LinkedList();
-
 	// Container
 	int Size() const;
 	bool isEmpty() const;
 	char* toString() const;
 
-	// Deque
+	/*// Deque
 	bool pushFront(int);
 	bool pushBack(int);
 	int popFront();
 	int popBack();
 	int peekFront() const;
-	int peekBack() const;
+	int peekBack() const;*/
 
 	// PushPopContainer
 	bool push(int);

@@ -1,18 +1,16 @@
 #include "StaticDeque.h"
 #include <string>
 
-StaticDeque::StaticDeque()
+StaticDeque::StaticDeque(int default_value)
 {
-	head = NULL;
-	tail = NULL;
-	size = 0;
-	arr = new int[size];
+	if (size <= 0) throw 4;
+	this->size = size;
+	arr = new int [size];
+	for (int i = 0; i < size; i++)
+		arr[i] = default_value; //значение по умолчанию
 }
 
-StaticDeque::~StaticDeque()
-{
-	delete[] arr;
-}
+StaticDeque::~StaticDeque() { delete[] arr; }
 
 int StaticDeque::Size() const { return size; }
 
@@ -43,48 +41,33 @@ char* StaticDeque::toString() const {
 }
 
 bool StaticDeque::pushBack(int value) {
-	node *newNode = new node();
+	int *tmp_arr = new int [size + 1];
+	for (int i = 0; i < size; i++)
+		tmp_arr[i] = arr[i];
+	tmp_arr[size] = value;
 
-	newNode->value = value;
+	delete[] arr;
 
-	if (isEmpty()) {
-		head = newNode;
-		tail = newNode;
-	}
-	else {
-		newNode->prev = tail;
-		tail->next = newNode;
-		tail = newNode;
-	}
-	size += 1;
+	arr = tmp_arr;
+	size++;
+
 	return true;
 }
 
 bool StaticDeque::pushFront(int value) {
-	node *newNode = new node();
-
-	newNode->value = value;
-
-	if (isEmpty()) {
-		head = newNode;
-		tail = newNode;
-	}
-	else {
-		head->prev = newNode;
-		newNode->next = head;
-		head = newNode;
-	}
-	size += 1;
+	int *tmp_arr = new int [size + 1];
+	for (int i = 0; i < size; i++)
+		tmp_arr[i + 1] = arr[i];
+	tmp_arr[0] = value;
+	delete[] arr;
+	arr = tmp_arr;
+	size++;
 	return true;
 }
 
-int StaticDeque::peekBack() const {
-	return arr[size - 1];
-}
+int StaticDeque::peekBack() const { return arr[size - 1]; }
 
-int StaticDeque::peekFront() const {
-	return arr[0];
-}
+int StaticDeque::peekFront() const { return arr[0]; }
 
 int StaticDeque::popBack() {
 	if (isEmpty()) throw 1;
@@ -93,9 +76,12 @@ int StaticDeque::popBack() {
 	int *tmp_arr = new int [size - 1], res_val = arr[size - 1];
 	for (int i = 0; i < size - 1; i++)
 		tmp_arr[i] = arr[i];
+
 	delete[] arr;
+
 	arr = tmp_arr;
 	size--;
+
 	return res_val;
 }
 
@@ -108,8 +94,11 @@ int StaticDeque::popFront() {
 	int *tmp_arr = new int[size - 1], res_val = arr[0];
 	for (int i = 0; i < size - 1; i++)
 		tmp_arr[i] = arr[i + 1];
+
 	delete[] arr;
+	
 	arr = tmp_arr;
 	size--;
+	
 	return res_val;
 }
