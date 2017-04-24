@@ -10,6 +10,7 @@ private:
 	int size;
 public:
 	LinkedList();
+
 	// Container
 	int Size() const;
 	bool isEmpty() const;

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Stack.h"
 #include <string>
 
@@ -10,13 +12,13 @@ Stack::Stack()
 
 int Stack::Size() const { return size; } // вернуть размер стека
 
-bool Stack::isEmpty() const { return size == 0; }
+bool Stack::isEmpty() const { return head == NULL; }
 
 char* Stack::toString() const {
 	node *tmp = head; // текущий элемент
 	char *res = new char[100]{ NULL };
 
-	strcat(res, "Stack\nHead ->");
+	strcat(res, "Stack:\n ");
 	do {
 		if (tmp != head) {
 			strcat(res, ", ");
@@ -30,7 +32,7 @@ char* Stack::toString() const {
 		delete val;
 	} while (tmp != NULL);
 
-	strcat(res, "<- Tail");
+	strcat(res, " ");
 
 	delete tmp;
 	return res;

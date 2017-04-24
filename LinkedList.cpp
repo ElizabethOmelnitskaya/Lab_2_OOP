@@ -16,7 +16,7 @@ char* LinkedList::toString() const {
 	node *tmp = head;
 	char *res = new char[100]{ NULL };
 
-	strcat(res, "Linked list\nHead ->");
+	strcat(res, "Linked list:\n ");
 	do {
 		if (tmp != head) {
 			strcat(res, ", ");
@@ -31,7 +31,7 @@ char* LinkedList::toString() const {
 		delete val;
 	} while (tmp != NULL);
 
-	strcat(res, "<- Tail");
+	strcat(res, "  ");
 	delete tmp;
 
 	return res;

@@ -4,7 +4,7 @@
 StaticArray::StaticArray(int _maxNumber)
 {
 	arr = new int[_maxNumber];
-	size = 0;
+	size = _maxNumber;
 }
 
 int StaticArray::Size() const { return size; }
@@ -14,7 +14,7 @@ bool StaticArray::isEmpty() const { return size == 0; }
 char* StaticArray::toString() const {
 	char *res = new char[100]{ NULL };
 
-	strcat(res, "StaticArray\nHead->");
+	strcat(res, "StaticArray:\n ");
 	for (int i = 0; i < Size(); i++) {
 		if (i != 0) {
 			strcat(res, ", ");
@@ -26,12 +26,12 @@ char* StaticArray::toString() const {
 
 		delete val;
 	}
-	strcat(res, "<-Tail");
+	strcat(res, "  ");
 	return res;
 }
 
 int StaticArray::get(int index) const{
-	if (isEmpty()) throw 1;
+	if (isEmpty()) return -1;
 	else if (index >= size || index < 0) throw 2;
 	return arr[index];
 }
